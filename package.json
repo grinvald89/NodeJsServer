@@ -1,0 +1,8 @@
+{
+  "name": "test-server",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "node-static": "^0.7.9"
+  }
+}
