@@ -1,33 +1,20 @@
-var http = require('http');
-var url = require('url');
+let http = require('http'),
+	url = require('url'),
+	server = new http.Server();
 
-var server = new http.Server();
-
-var DOMModel = {
-	tag: "div",
-	content: [
-		{
-			tag: "span",
-			attributes: { style: "color: red" },
-			content: [{ text: "Enter value:" }]
-		},
-		{
-			tag: "input",
-			attributes: {
-				type: "text",
-				value: "test",
-				style: "color: green"
-			}
-		}
-	]
+let getModule = function (urlPath) {
+	switch (urlPath) {
+		case '/Ex1/': return require('./urls/Ex1.js');
+		case '/Ex2/': return require('./urls/Ex2.js');
+		case '/Ex3/': return require('./urls/Ex3.js');
+		default: return require('./urls/Ex1.js');
+	}
 }
 
 server.listen(1337, '127.0.0.1');
 
 server.on('request', function(req, res) {
-	console.log( req.method, req.url );
-
 	res.setHeader('Content-Type', 'application/json');
 	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.end(JSON.stringify(DOMModel));
+	res.end(JSON.stringify( getModule(req.url) ));
 });
